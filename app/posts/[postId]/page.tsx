@@ -1,19 +1,30 @@
 import getFormattedDate from "@/lib/getFormattedDate"
-import { getSortedPostsData, getPostData } from "@/lib/posts"
+import { getPostsMeta, getPostByName } from "@/lib/posts"
 import { notFound } from "next/navigation"
 import Link from "next/link"
 
-export function generateStaticParams() {
-    const posts = getSortedPostsData()
+export const revalidate = 0
 
-    return posts.map((post) => ({
-        postId: post.id
-    }))
+type Props = {
+    params: {
+        postId: string
+    }
 }
+
+//export async function generateStaticParams() {
+//    const posts = await getPostsMeta() //deduped!
+//
+//    if (!posts) return []
+//
+//    return posts.map((post) => ({
+//        postId: post.id
+//    }))
+//}
+
 
 export function generateMetadata({ params }: { params: { postId: string } }) {
 
-    const posts = getSortedPostsData()
+    const posts = getPostsMeta() //deduped!
     const { postId } = params
 
     const post = posts.find(post => post.id === postId)
