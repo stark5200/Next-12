@@ -30,6 +30,9 @@ export async function getPostByName(fileName: string): Promise<BlogPost | undefi
 
     const { frontmatter, content } = await compileMDX<{ title: string, date: string, tags: string[] }>({
         source: rawMDX,
+        options: {
+            parseFrontmatter: true,
+        }
         //comment block here
         
     })
@@ -77,8 +80,7 @@ export async function getPostsMeta(): Promise<Meta[] | undefined> {
             Video,
             CustomImage,
         },
-        options: {
-            parseFrontmatter: true,
+        
             mdxOptions: {
                 rehypePlugins: [
                     rehypeHighlight,
@@ -88,5 +90,4 @@ export async function getPostsMeta(): Promise<Meta[] | undefined> {
                     }],
                 ],
             },
-        }
         */}
