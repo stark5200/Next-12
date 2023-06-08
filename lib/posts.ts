@@ -1,7 +1,7 @@
 import { compileMDX } from 'next-mdx-remote/rsc'
-//import rehypeAutolinkHeadings from 'rehype-autolink-headings/lib'
-//import rehypeHighlight from 'rehype-highlight/lib'
-//import rehypeSlug from 'rehype-slug'
+import rehypeAutolinkHeadings from 'rehype-autolink-headings/lib'
+import rehypeHighlight from 'rehype-highlight/lib'
+import rehypeSlug from 'rehype-slug'
 //import Video from '@/app/components/Video'
 //import CustomImage from '@/app/components/CustomImage'
 
@@ -32,6 +32,15 @@ export async function getPostByName(fileName: string): Promise<BlogPost | undefi
         source: rawMDX,
         options: {
             parseFrontmatter: true,
+            mdxOptions: {
+                rehypePlugins: [
+                    rehypeHighlight,
+                    rehypeSlug,
+                    [rehypeAutolinkHeadings, {
+                        behavior: 'wrap'
+                    }],
+                ],
+            },
         }
         //comment block here
         
@@ -81,13 +90,5 @@ export async function getPostsMeta(): Promise<Meta[] | undefined> {
             CustomImage,
         },
         
-            mdxOptions: {
-                rehypePlugins: [
-                    rehypeHighlight,
-                    rehypeSlug,
-                    [rehypeAutolinkHeadings, {
-                        behavior: 'wrap'
-                    }],
-                ],
-            },
+            
         */}
