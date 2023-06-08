@@ -2,8 +2,8 @@ import { compileMDX } from 'next-mdx-remote/rsc'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings/lib'
 import rehypeHighlight from 'rehype-highlight/lib'
 import rehypeSlug from 'rehype-slug'
-//import Video from '@/app/components/Video'
-//import CustomImage from '@/app/components/CustomImage'
+import Video from '@/app/components/Video'
+import CustomImage from '@/app/components/CustomImage'
 
 type Filetree = {
     "tree": [
@@ -14,7 +14,7 @@ type Filetree = {
 }
 
 export async function getPostByName(fileName: string): Promise<BlogPost | undefined> {
-    const res = await fetch(`https://raw.githubusercontent.com/stark5200/Next12blogposts/main/${fileName}`, {
+    const res = await fetch(`https://raw.githubusercontent.com/stark5200/Next12-blogposts/main/${fileName}`, {
         headers: {
             Accept: 'application/vnd.github+json',
             Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
@@ -30,6 +30,10 @@ export async function getPostByName(fileName: string): Promise<BlogPost | undefi
 
     const { frontmatter, content } = await compileMDX<{ title: string, date: string, tags: string[] }>({
         source: rawMDX,
+        components: {
+            Video,
+            CustomImage,
+        },
         options: {
             parseFrontmatter: true,
             mdxOptions: {
@@ -42,7 +46,6 @@ export async function getPostByName(fileName: string): Promise<BlogPost | undefi
                 ],
             },
         }
-        //comment block here
         
     })
 
@@ -84,11 +87,3 @@ export async function getPostsMeta(): Promise<Meta[] | undefined> {
 
 }
 
-{/*
-            components: {
-            Video,
-            CustomImage,
-        },
-        
-            
-        */}
